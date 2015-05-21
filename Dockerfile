@@ -36,4 +36,4 @@ EXPOSE 3000
 
 # At build time, add source to the app directory and install dependencies
 ONBUILD ADD . /app/user/
-ONBUILD RUN npm install
+ONBUILD RUN /app/heroku/node/bin/npm install
