@@ -17,12 +17,11 @@ ENV NODE_ENGINE 0.12.2
 # Create some needed directories
 RUN mkdir -p $HOME $HEROKU $PROFILE
 RUN mkdir -p $HEROKU/node
-WORKDIR $HOME
 
 # `init` is kept out of /app so it won't be duplicated on Heroku
 # Heroku already has a mechanism for running .profile.d scripts,
 # so this is just for local parity
-ADD ./init /usr/bin/init
+COPY ./init /usr/bin/init
 
 # Install node
 RUN curl -s https://s3pository.heroku.com/node/v$NODE_ENGINE/node-v$NODE_ENGINE-linux-x64.tar.gz | tar --strip-components=1 -xz -C $HEROKU/node
@@ -31,9 +30,11 @@ RUN curl -s https://s3pository.heroku.com/node/v$NODE_ENGINE/node-v$NODE_ENGINE-
 RUN echo "export PATH=\"$HEROKU/node/bin:$USER/node_modules/.bin:\$PATH\"" > $PROFILE/nodejs.sh
 RUN chmod +x $PROFILE/nodejs.sh
 
-ENTRYPOINT ["/usr/bin/init"]
-EXPOSE 3000
+WORKDIR $HOME
 
-# At build time, add source to the app directory and install dependencies
-ONBUILD ADD . /app/user/
-ONBUILD RUN /app/heroku/node/bin/npm install
+ONBUILD ADD ./package.json $HOME/package.json
+ONBUILD RUN echo "installing for package.json: $(cat package.json)"
+ONBUILD RUN $HEROKU/node/bin/npm install
+ONBUILD EXPOSE 3000
+
+ENTRYPOINT ["/usr/bin/init"]
