@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd $HOME
+
+for SCRIPT in $PROFILE/*;
+  do source $SCRIPT;
+done
+
+exec $*
