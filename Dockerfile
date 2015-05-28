@@ -27,7 +27,6 @@ RUN curl -s https://s3pository.heroku.com/node/v$NODE_ENGINE/node-v$NODE_ENGINE-
 RUN echo "export PATH=\"/app/heroku/node/bin:/app/user/node_modules/.bin:\$PATH\"" > /app/.profile.d/nodejs.sh
 RUN chmod +x /app/.profile.d/nodejs.sh
 
-ONBUILD EXPOSE 3000
 ONBUILD ADD package.json /app/user/
 ONBUILD RUN /app/heroku/node/bin/npm install
 ONBUILD ADD . /app/user/
