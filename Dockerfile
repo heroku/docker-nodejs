@@ -15,11 +15,6 @@ ENV PATH /app/heroku/node/bin/:$PATH
 RUN mkdir -p /app/heroku/node /app/.profile.d
 WORKDIR /app/user
 
-# `init` is kept out of /app so it won't be duplicated on Heroku
-# Heroku already has a mechanism for running .profile.d scripts,
-# so this is just for local parity
-COPY ./init /usr/bin/init
-
 # Install node
 RUN curl -s https://s3pository.heroku.com/node/v$NODE_ENGINE/node-v$NODE_ENGINE-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/heroku/node
 
@@ -30,5 +25,3 @@ RUN chmod +x /app/.profile.d/nodejs.sh
 ONBUILD ADD package.json /app/user/
 ONBUILD RUN /app/heroku/node/bin/npm install
 ONBUILD ADD . /app/user/
-
-ENTRYPOINT ["/usr/bin/init"]
