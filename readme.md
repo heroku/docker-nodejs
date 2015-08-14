@@ -5,5 +5,5 @@ For use with the heroku-docker cli plugin.
 ## Hacking
 
 ```
-docker build -t hunterloftis/node .
+docker build -t heroku/node .
 ```
