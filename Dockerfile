@@ -6,7 +6,7 @@ ENV PORT 3000
 # Which version of node?
 ENV NODE_ENGINE 0.12.2
 # Locate our binaries
-ENV PATH /app/heroku/node/bin/:$PATH
+ENV PATH /app/heroku/node/bin/:/app/user/node_modules/.bin:$PATH
 
 # Create some needed directories
 RUN mkdir -p /app/heroku/node /app/.profile.d
